@@ -1,6 +1,7 @@
 from labelencoding import MyLabelEncoder
 from onehotencoding import MyOneHotEncoder
 from ordinalencoding import MyOrdinalEncoder
+from MyPipeline import MyPipeline
 
 import numpy as np
 import pandas as pd
@@ -30,13 +31,30 @@ class MyColumnTransformer:
 
 df = pd.read_csv("Practice/SalaryData.csv")
 
+# ct = MyColumnTransformer([
+#     # ("label", MyLabelEncoder(), "cough"),
+#     ("ordinal", MyOneHotEncoder(), "Education Level")
+#     # ("onehot", MyOneHotEncoder(), "city")
+# ])
+
+
+# result = ct.fit_transform(df)
+# print(result) 
+
+
 ct = MyColumnTransformer([
-    # ("label", MyLabelEncoder(), "cough"),
-    ("ordinal", MyOneHotEncoder(), "Education Level")
-    # ("onehot", MyOneHotEncoder(), "city")
-])
 
+    ("education_pipe",
+     MyPipeline([
+         ("ordinal", MyOrdinalEncoder())
+     ]),
+     "Education Level"
+    ),
 
-result = ct.fit_transform(df)
-print(result) 
+    ("gender_pipe",
+     MyPipeline([
+         ("onehot", MyOneHotEncoder())
+     ]),
+     "Gender"
+    )])
 
