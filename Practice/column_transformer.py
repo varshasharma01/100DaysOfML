@@ -6,8 +6,6 @@ from MyPipeline import MyPipeline
 import numpy as np
 import pandas as pd
 
-
-
 class MyColumnTransformer:
 
     def __init__(self, transformers):
